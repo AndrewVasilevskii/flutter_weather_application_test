@@ -1,6 +1,6 @@
 import 'package:location/location.dart';
 
-import 'package:flutterweatherapplication/Models/current_location.dart';
+import 'package:flutterweatherapplication/models/current_location.dart';
 
 class LocationApiClient {
   static Location locator = Location();
