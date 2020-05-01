@@ -1,4 +1,4 @@
-
+import 'package:equatable/equatable.dart';
 import 'package:flutterweatherapplication/models/weather_condition_descriptions.dart' as desc;
 
 enum WeatherCondition {
@@ -15,7 +15,7 @@ enum WeatherCondition {
   unknown
 }
 
-class Weather {
+class Weather extends Equatable {
   final double temperature;
   final double temperatureMin;
   final double temperatureMax;
@@ -45,6 +45,22 @@ class Weather {
           this.windDirection,
           this.weatherAt
       });
+  @override
+  List<Object> get props => [
+        temperature,
+        temperatureMin,
+        temperatureMax,
+        pressure,
+        humidity,
+        rainVolume,
+        snowVolume,
+        name,
+        description,
+        weatherCondition,
+        windSpeed,
+        windDirection,
+        weatherAt
+      ];
 
   factory Weather.fromJson(Map<String, dynamic> json) {
     var rainVolume;
