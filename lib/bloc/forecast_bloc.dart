@@ -48,12 +48,11 @@ class ForecastBloc extends Bloc<ForecastEvent, ForecastState> {
   @override
   Stream<ForecastState> mapEventToState(ForecastEvent event) async* {
     if (event is FetchForecast) {
-      yield* _mapFeatchForecastToState(event);
+      yield* _mapFetchForecastToState(event);
     }
   }
 
-  @override
-  Stream<ForecastState> _mapFeatchForecastToState(FetchForecast event) async* {
+  Stream<ForecastState> _mapFetchForecastToState(FetchForecast event) async* {
     yield ForecastLoading();
     try {
       final Forecast forecast  = await weatherRepository.getWeather();

@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:equatable/equatable.dart';
+
 import 'package:flutterweatherapplication/models/weather_condition_descriptions.dart' as desc;
 
 enum WeatherCondition {
@@ -16,47 +19,43 @@ enum WeatherCondition {
 }
 
 class Weather extends Equatable {
-  final double temperature;
-  final double temperatureMin;
-  final double temperatureMax;
+  final int temperature;
   final int pressure;
   final int humidity;
-  final int rainVolume;
-  final int snowVolume;
-  final String name;
-  final String description;
-  final WeatherCondition weatherCondition;
+  final int precipitation;
+  final String formattedCondition;
+  final WeatherCondition condition;
   final double windSpeed;
   final String windDirection;
   final DateTime weatherAt;
 
+  String get weatherToShare {
+    return 'Today: $formattedCondition with $humidity% humidity and '
+        '$precipitation mm precipitation.'
+        '\n$windDirection wind with ${(windSpeed*3.6).toStringAsFixed(1)} km/h.'
+        '\nIt\'s $temperature \u2103.';
+  }
+
   Weather({
           this.temperature,
-          this.temperatureMin,
-          this.temperatureMax,
           this.pressure,
           this.humidity,
-          this.rainVolume,
-          this.snowVolume,
-          this.name,
-          this.description,
-          this.weatherCondition,
+          this.precipitation,
+          this.formattedCondition,
+          this.condition,
           this.windSpeed,
           this.windDirection,
           this.weatherAt
       });
+
   @override
   List<Object> get props => [
         temperature,
-        temperatureMin,
-        temperatureMax,
         pressure,
         humidity,
-        rainVolume,
-        snowVolume,
-        name,
-        description,
-        weatherCondition,
+        precipitation,
+        formattedCondition,
+        condition,
         windSpeed,
         windDirection,
         weatherAt
@@ -69,22 +68,23 @@ class Weather extends Equatable {
       snowVolume = json['snow']['3h'];
       rainVolume = json['rain']['3h'];
     } catch (error) {}
+
     return Weather(
-        temperature: json['main']['temp'].toDouble(),
-        temperatureMin: json['main']['temp_min'].toDouble(),
-        temperatureMax: json['main']['temp_max'].toDouble(),
+        temperature: (json['main']['temp'].toDouble()).round(),
         pressure: json['main']['pressure'],
         humidity: json['main']['humidity'],
-        rainVolume: rainVolume ?? 0,
-        snowVolume: snowVolume ?? 0,
-        name: json['weather'][0]['main'],
-        description: json['weather'][0]['description'],
-        weatherCondition: _mapStringToWeatherCondition(
+        precipitation: max(rainVolume ?? 0, snowVolume ?? 0),
+        formattedCondition: _toBeginningOfSentenceCase(json['weather'][0]['description']),
+        condition: _mapStringToWeatherCondition(
             json['weather'][0]['description']),
         windSpeed: json['wind']['speed'].toDouble(),
         windDirection: _mapDegreesToDirection(json['wind']['deg'].toDouble()),
         weatherAt: DateTime.parse(json['dt_txt'])
     );
+  }
+
+  static String _toBeginningOfSentenceCase(String input) {
+    return input[0].toUpperCase() + input.substring(1);
   }
 
   static WeatherCondition _mapStringToWeatherCondition(String input) {
