@@ -41,15 +41,15 @@ class Forecast extends StatelessWidget {
     if (input.length != 0) {
       final newList = [];
       final date = input[0].weatherAt;
-      final formattedDate = _mapDateToFormat(date);
+      final formattedDate = mapDateToFormat(date);
       newList.add(HeadingItem(heading: date));
       newList.addAll(
-          (input.takeWhile((item) => _mapDateToFormat(item.weatherAt) == formattedDate))
+          (input.takeWhile((item) => mapDateToFormat(item.weatherAt) == formattedDate))
           .map((item) => WeatherItem(weather: item))
       );
       newList.addAll(
           _mapForecastToTableItems(
-              (input.skipWhile((item) => _mapDateToFormat(item.weatherAt) == formattedDate))
+              (input.skipWhile((item) => mapDateToFormat(item.weatherAt) == formattedDate))
                   .toList()
           )
       );
@@ -58,9 +58,10 @@ class Forecast extends StatelessWidget {
     return [];
   }
 
-  String _mapDateToFormat(DateTime date) {
-    return DateFormat('yMd').format(date);
-  }
+}
+
+String mapDateToFormat(DateTime date) {
+  return DateFormat('yMd').format(date);
 }
 
 abstract class ListItem {
@@ -80,8 +81,13 @@ class HeadingItem implements ListItem {
 
   @override
   Widget buildTitle(BuildContext context) {
-    return Text(DateFormat('EEEE').format(heading).toUpperCase(),
-        style: TextStyle(fontSize: 15)
+    if (mapDateToFormat(heading) == mapDateToFormat(DateTime.now())) {
+      return Text('Today',
+          style: TextStyle(fontSize: 18)
+      );
+    }
+    return Text(DateFormat('EEEE').format(heading),
+        style: TextStyle(fontSize: 18)
     );
   }
 
