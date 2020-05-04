@@ -47,7 +47,7 @@ class WeatherConditions extends StatelessWidget {
         image = Image.asset('$baseDirectory/freezing_raint_$dayOrNight.png');
         break;
       case WeatherCondition.rain:
-        image = Image.asset('$baseDirectory/raint_$dayOrNight.png');
+        image = Image.asset('$baseDirectory/rain_$dayOrNight.png');
         break;
       case WeatherCondition.thunderstorm:
         image = Image.asset('$baseDirectory/thunderstorm.png');

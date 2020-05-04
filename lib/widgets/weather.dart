@@ -22,15 +22,12 @@ class Weather extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor:Colors.transparent,
         appBar: AppBar(
             title: Text("Weather",
                 style: TextStyle(
-                    color: Colors.black,
                     fontWeight: FontWeight.w400
                 )
             ),
-          backgroundColor: Colors.white
         ),
         body: ListView(
             children: <Widget>[

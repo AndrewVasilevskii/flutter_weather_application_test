@@ -11,6 +11,7 @@ import 'package:flutterweatherapplication/repositories/weather_repository.dart';
 import 'package:flutterweatherapplication/widgets/widgets.dart';
 
 void main() {
+
   BlocSupervisor.delegate = SimpleBlocDelegate();
 
   final WeatherRepository weatherRepository = WeatherRepository(
@@ -30,7 +31,22 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(),
+      theme: ThemeData(
+          brightness: Brightness.light,
+          appBarTheme: AppBarTheme(
+              brightness: Brightness.light,
+              color: Colors.white,
+              textTheme: TextTheme(
+                  title: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400
+                  )
+              )
+          )
+      ),
+      darkTheme: ThemeData.dark(),
+        debugShowCheckedModeBanner: false,
         home: BlocProvider(create: (context) =>
             ForecastBloc(weatherRepository: weatherRepository),
             child: WeatherPageController()

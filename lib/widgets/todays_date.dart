@@ -11,7 +11,6 @@ class TodaysDate extends StatelessWidget {
           children: <Widget>[
             Text('Today',
                 style: TextStyle(
-                    color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 23)
             ),
