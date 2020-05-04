@@ -8,13 +8,17 @@ import 'package:flutterweatherapplication/repositories/weather_repository.dart';
 
 abstract class ForecastEvent extends Equatable {
   const ForecastEvent();
+
+  @override
+  List<Object> get props => [];
 }
 
 class FetchForecast extends ForecastEvent {
   const FetchForecast();
+}
 
-  @override
-  List<Object> get props => [];
+class RefreshForecast extends ForecastEvent {
+  const RefreshForecast();
 }
 
 abstract class ForecastState extends Equatable {
@@ -50,6 +54,9 @@ class ForecastBloc extends Bloc<ForecastEvent, ForecastState> {
     if (event is FetchForecast) {
       yield* _mapFetchForecastToState(event);
     }
+    if (event is RefreshForecast) {
+      yield* _mapRefreshForecastToState(event);
+    }
   }
 
   Stream<ForecastState> _mapFetchForecastToState(FetchForecast event) async* {
@@ -59,6 +66,15 @@ class ForecastBloc extends Bloc<ForecastEvent, ForecastState> {
       yield ForecastLoaded(forecast: forecast);
     } catch (_) {
       yield ForecastError();
+    }
+  }
+
+  Stream<ForecastState> _mapRefreshForecastToState(RefreshForecast event) async* {
+    try {
+      final Forecast forecast = await weatherRepository.getWeather();
+      yield ForecastLoaded(forecast: forecast);
+    } catch (_) {
+      yield state;
     }
   }
 }
