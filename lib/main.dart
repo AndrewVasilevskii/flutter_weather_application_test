@@ -33,23 +33,16 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
           brightness: Brightness.light,
+          primaryColor: Colors.white,
           appBarTheme: AppBarTheme(
               brightness: Brightness.light,
-              color: Colors.white,
-              textTheme: TextTheme(
-                  title: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400
-                  )
-              )
           )
       ),
       darkTheme: ThemeData.dark(),
         debugShowCheckedModeBanner: false,
         home: BlocProvider(create: (context) =>
             ForecastBloc(weatherRepository: weatherRepository),
-            child: WeatherPageController()
+            child: WeatherTabController()
         )
     );
   }

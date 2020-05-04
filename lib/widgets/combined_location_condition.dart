@@ -17,7 +17,7 @@ class CombinedLocationCondition extends StatelessWidget {
     return Column(
       children: <Widget>[
         Padding(
-            padding: EdgeInsets.only(bottom: 20),
+            padding: EdgeInsets.only(bottom: 25),
             child: Text(formattedCondition,
                 style: TextStyle(
                     fontSize: 25

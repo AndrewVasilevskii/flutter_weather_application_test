@@ -12,7 +12,7 @@ class CombinedWeatherTemperature extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 15),
+        padding: EdgeInsets.only(top: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

@@ -21,41 +21,37 @@ class Weather extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-            title: Text("Weather",
-                style: TextStyle(
-                    fontWeight: FontWeight.w400
-                )
+    return SafeArea(
+        child: Scaffold(
+            body: ListView(
+                children: <Widget>[
+                  TodaysDate(),
+                  CombinedWeatherTemperature(weather: weather),
+                  CombinedLocationCondition(
+                      city: city,
+                      country: country,
+                      formattedCondition: weather.formattedCondition
+                  ),
+                  Divider(),
+                  AdditionalWeatherInformation(
+                    humidity: weather.humidity,
+                    precipitation: weather.precipitation,
+                    pressure: weather.pressure,
+                    windSpeed: weather.windSpeed,
+                    windDirection: weather.windDirection,
+                  ),
+                  Divider(),
+                ]
             ),
-        ),
-        body: ListView(
-            children: <Widget>[
-              TodaysDate(),
-              CombinedWeatherTemperature(weather: weather),
-              CombinedLocationCondition(
-                  city: city,
-                  country: country,
-                  formattedCondition: weather.formattedCondition
-              ),
-              Divider(),
-              AdditionalWeatherInformation(
-                humidity: weather.humidity,
-                precipitation: weather.precipitation,
-                pressure: weather.pressure,
-                windSpeed: weather.windSpeed,
-                windDirection: weather.windDirection,
-              ),
-              Divider(),
-
-            ]
-        ),
-      floatingActionButton: FloatingActionButton.extended(
-          onPressed: (){
-            Share.share(weather.weatherToShare);
-          },
-          label: Text('Share'),
-          icon: Icon(Icons.share)),
+            floatingActionButton: FloatingActionButton.extended(
+              onPressed: (){
+                Share.share(weather.weatherToShare);
+                },
+              label: Text('Share'),
+              icon: Icon(Icons.share),
+            ),
+            floatingActionButtonLocation: FloatingActionButtonLocation.endDocked
+        )
     );
   }
 }
