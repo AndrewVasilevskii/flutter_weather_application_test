@@ -44,7 +44,7 @@ class _WeatherTabControllerState extends State<WeatherTabController> with
       body: TabBarView(
         children: <Widget>[
           WeatherToday(),
-          WeatherToday()
+          Forecast()
         ],
         controller: _tabController
       ),

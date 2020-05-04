@@ -50,7 +50,7 @@ class Weather extends StatelessWidget {
               label: Text('Share'),
               icon: Icon(Icons.share),
             ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.endDocked
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat
         )
     );
   }

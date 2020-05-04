@@ -29,7 +29,7 @@ class WeatherConditions extends StatelessWidget {
     Image image;
     switch (condition){
       case WeatherCondition.clear:
-        image = Image.asset('$baseDirectory/clear_$dayOrNight');
+        image = Image.asset('$baseDirectory/clear_$dayOrNight.png');
         break;
       case WeatherCondition.fewClouds:
         image = Image.asset('$baseDirectory/few_clouds_$dayOrNight.png');

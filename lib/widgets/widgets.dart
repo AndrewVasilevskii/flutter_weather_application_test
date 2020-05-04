@@ -1,6 +1,7 @@
 export './additional_weather_information.dart';
 export './combined_location_condition.dart';
 export './combined_weather_temperature.dart';
+export './forecast.dart';
 export './todays_date.dart';
 export './weather.dart';
 export './weather_conditions.dart';
