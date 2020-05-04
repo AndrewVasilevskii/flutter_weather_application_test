@@ -27,6 +27,9 @@ class LocationApiClient {
     }
 
     _locationData = await locator.getLocation();
-    return CurrentLocation(latitude: _locationData.latitude, longitude: _locationData.longitude);
+    return CurrentLocation(
+        latitude: _locationData.latitude,
+        longitude: _locationData.longitude
+    );
   }
 }
