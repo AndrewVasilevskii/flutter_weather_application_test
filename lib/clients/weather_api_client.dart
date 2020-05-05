@@ -18,7 +18,7 @@ class WeatherApiClient {
     final requestUrl = '$baseUrl?lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric';
     final weatherResponse = await httpClient.get(requestUrl);
     if (weatherResponse.statusCode != 200) {
-      throw Exception('Error getting weather for location');
+      throw Exception('Error getting weather.');
     }
     final weatherJson = jsonDecode(weatherResponse.body);
     return Forecast.fromJson(weatherJson);

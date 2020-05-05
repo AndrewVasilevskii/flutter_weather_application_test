@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:meta/meta.dart';
 
 import 'package:bloc/bloc.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:flutterweatherapplication/models/forecast.dart';
@@ -39,7 +42,13 @@ class ForecastLoaded extends ForecastState {
   List<Object> get props => [forecast];
 }
 
-class ForecastError extends ForecastState {}
+class ForecastError extends ForecastState {
+  final Exception exception;
+  const ForecastError({@required this.exception});
+
+  @override
+  List<Object> get props => [exception];
+}
 
 class ForecastBloc extends Bloc<ForecastEvent, ForecastState> {
   final WeatherRepository weatherRepository;
@@ -61,20 +70,49 @@ class ForecastBloc extends Bloc<ForecastEvent, ForecastState> {
 
   Stream<ForecastState> _mapFetchForecastToState(FetchForecast event) async* {
     yield ForecastLoading();
+    final connect = await Connectivity().checkConnectivity();
+    if (connect == ConnectivityResult.mobile || connect == ConnectivityResult.wifi){
+      try {
+        final Forecast forecast  = await weatherRepository.fetchForecast();
+        await weatherRepository.saveForecastToDatabase(forecast);
+        yield ForecastLoaded(forecast: forecast);
+      } on HttpException {
+        yield ForecastError(exception: HttpException('Error reciving data.'));
+        yield* _mapLoadFromDatabaseForecastToState(event);
+      } catch(e) {
+        yield ForecastError(exception: e);
+      }
+    } else {
+      yield ForecastError(exception: SocketException('No internet connection.'));
+      yield* _mapLoadFromDatabaseForecastToState(event);
+    }
+  }
+
+  Stream<ForecastState> _mapLoadFromDatabaseForecastToState(ForecastEvent event) async* {
+    yield ForecastLoading();
     try {
-      final Forecast forecast  = await weatherRepository.getWeather();
+      final Forecast forecast = await weatherRepository.loadForecastFromDatabase();
       yield ForecastLoaded(forecast: forecast);
     } catch (_) {
-      yield ForecastError();
+      yield ForecastError(exception: FileSystemException('No data.'));
     }
   }
 
   Stream<ForecastState> _mapRefreshForecastToState(RefreshForecast event) async* {
-    try {
-      final Forecast forecast = await weatherRepository.getWeather();
-      yield ForecastLoaded(forecast: forecast);
-    } catch (_) {
-      yield state;
+    final connect = await Connectivity().checkConnectivity();
+    if (connect == ConnectivityResult.mobile || connect == ConnectivityResult.wifi){
+      try {
+        final Forecast forecast  = await weatherRepository.fetchForecast();
+        await weatherRepository.saveForecastToDatabase(forecast);
+        yield ForecastLoaded(forecast: forecast);
+      } on HttpException {
+        yield ForecastError(exception: HttpException('Error reciving data.'));
+        yield* _mapLoadFromDatabaseForecastToState(event);
+      } catch (e) {
+        yield ForecastError(exception: e);
+      }
+    } else {
+      yield* _mapLoadFromDatabaseForecastToState(event);
     }
   }
 }

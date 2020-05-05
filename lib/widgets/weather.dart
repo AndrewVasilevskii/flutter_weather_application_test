@@ -35,6 +35,8 @@ class Weather extends StatelessWidget {
                   Divider(),
                   AdditionalWeatherInformation(
                     humidity: weather.humidity,
+                    feelsLike: weather.feelsLike,
+                    overcast: weather.overcast,
                     precipitation: weather.precipitation,
                     pressure: weather.pressure,
                     windSpeed: weather.windSpeed,

@@ -14,7 +14,7 @@ class LocationApiClient {
     if (!_serviceEnabled) {
       _serviceEnabled = await locator.requestService();
       if (!_serviceEnabled) {
-        throw Exception("Service not enable.");
+        throw Exception('Service not enable.');
       }
     }
 
@@ -22,7 +22,7 @@ class LocationApiClient {
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await locator.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
-        throw Exception("No permission to access location.");
+        throw Exception('No permission to access location.');
       }
     }
 

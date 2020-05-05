@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 
@@ -30,12 +31,19 @@ class _WeatherTodayState extends State<WeatherToday> {
             _refreshCompleter = Completer();
           }
           if (state is ForecastError) {
-            Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text("Error."),
-                  backgroundColor: Colors.redAccent,
-                )
-            );
+            if (state.exception is SocketException) {
+              Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('No internet connection.'),
+                  )
+              );
+            } else {
+              Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                      content: Text(state.exception.toString()),
+                      backgroundColor: Colors.redAccent)
+              );
+            }
           }
           },
         builder: (context, state) {
@@ -57,7 +65,11 @@ class _WeatherTodayState extends State<WeatherToday> {
             );
           }
           if (state is ForecastError) {
-            return Center(child: Text('Error appeared'));
+            if (state.exception is FileSystemException) {
+              return MyErrorWidget(message: 'No data.');
+            } else {
+              return MyErrorWidget(message: 'Error appeared.');
+            }
           }
           return Center(child: CircularProgressIndicator());
         }
