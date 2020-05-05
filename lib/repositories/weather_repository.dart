@@ -12,7 +12,7 @@ class WeatherRepository {
 
   Future<Forecast> fetchForecast() async {
     final location = await locationApiClient.getLocation();
-    return weatherApiClient.fetchWeatherByCoordinates(location);
+    return weatherApiClient.fetchWeatherByCityName(location);
   }
 
   Future<Forecast> loadForecastFromDatabase() async {

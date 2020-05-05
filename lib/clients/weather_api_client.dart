@@ -14,8 +14,8 @@ class WeatherApiClient {
 
   WeatherApiClient({@required this.httpClient});
 
-  Future<Forecast> fetchWeatherByCoordinates(CurrentLocation location) async {
-    final requestUrl = '$baseUrl?lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric';
+  Future<Forecast> fetchWeatherByCityName(CurrentLocation location) async {
+    final requestUrl = '$baseUrl?q=${location.city},${location.countryCode}&appid=$apiKey&units=metric';
     final weatherResponse = await httpClient.get(requestUrl);
     if (weatherResponse.statusCode != 200) {
       throw Exception('Error getting weather.');

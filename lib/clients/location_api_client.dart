@@ -1,5 +1,5 @@
 import 'package:location/location.dart';
-
+import 'package:geolocator/geolocator.dart' as geo;
 import 'package:flutterweatherapplication/models/current_location.dart';
 
 class LocationApiClient {
@@ -27,9 +27,16 @@ class LocationApiClient {
     }
 
     _locationData = await locator.getLocation();
+    final place  = await geo.Geolocator().placemarkFromCoordinates(
+        _locationData.latitude,
+        _locationData.longitude
+    );
+
     return CurrentLocation(
         latitude: _locationData.latitude,
-        longitude: _locationData.longitude
+        longitude: _locationData.longitude,
+        city: place[0].locality,
+        countryCode: place[0].isoCountryCode
     );
   }
 }
