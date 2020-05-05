@@ -1,11 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutterweatherapplication/bloc/forecast_bloc.dart';
 
 import 'package:intl/intl.dart';
 
+import 'package:flutterweatherapplication/bloc/forecast_bloc.dart';
 import 'package:flutterweatherapplication/models/models.dart' as model;
 import 'package:flutterweatherapplication/widgets/widgets.dart';
 
@@ -56,7 +57,12 @@ class _ForecastState extends State<Forecast> {
             );
           }
           if (state is ForecastError) {
-            return Center(child: Text("Error loading Forecast."));
+            if (state.exception is FileSystemException) {
+              return MyErrorWidget(message: 'Error loading Forecast.');
+            } else {
+              return MyErrorWidget(message: 'Error appeared.');
+            }
+
           }
           return Center(child: CircularProgressIndicator());
         });
@@ -69,12 +75,14 @@ class _ForecastState extends State<Forecast> {
       final formattedDate = mapDateToFormat(date);
       newList.add(HeadingItem(heading: date));
       newList.addAll(
-          (input.takeWhile((item) => mapDateToFormat(item.weatherAt) == formattedDate))
-          .map((item) => WeatherItem(weather: item))
+          (input.takeWhile((item) =>
+          mapDateToFormat(item.weatherAt) == formattedDate))
+              .map((item) => WeatherItem(weather: item))
       );
       newList.addAll(
           _mapForecastToTableItems(
-              (input.skipWhile((item) => mapDateToFormat(item.weatherAt) == formattedDate))
+              (input.skipWhile((item) =>
+              mapDateToFormat(item.weatherAt) == formattedDate))
                   .toList()
           )
       );
@@ -134,8 +142,8 @@ class WeatherItem implements ListItem {
   @override
   Widget buildLeading(BuildContext context) {
     return WeatherConditions(
-      condition: weather.condition,
-      dateTime: weather.weatherAt);
+        condition: weather.condition,
+        dateTime: weather.weatherAt);
   }
 
   @override

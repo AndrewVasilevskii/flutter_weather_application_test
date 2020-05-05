@@ -2,13 +2,23 @@ import 'package:flutter/material.dart';
 
 class AdditionalWeatherInformation extends StatelessWidget {
   final int humidity;
-  final int precipitation;
+  final int feelsLike;
+  final int overcast;
+  final num precipitation;
   final int pressure;
   final double windSpeed;
   final String windDirection;
 
   String get humidityInfo {
     return '$humidity%';
+  }
+
+  String get feelsLikeInfo {
+    return '$feelsLike\u00B0';
+  }
+
+  String get overcastInfo {
+    return '$overcast%';
   }
 
   String get precipitationInfo {
@@ -26,6 +36,8 @@ class AdditionalWeatherInformation extends StatelessWidget {
   AdditionalWeatherInformation({
     Key key,
     @required this.humidity,
+    @required this.feelsLike,
+    @required this.overcast,
     @required this.precipitation,
     @required this.pressure,
     @required this.windSpeed,
@@ -50,7 +62,11 @@ class AdditionalWeatherInformation extends StatelessWidget {
           ]),
           TableRow(children: [
             _cellFor(title: 'WIND', info: windInfo),
-            _cellFor(title: "PRESSURE", info: pressureInfo)
+            _cellFor(title: 'FEELS LIKE', info: feelsLikeInfo)
+          ]),
+          TableRow(children: [
+            _cellFor(title: 'OVERCAST', info: overcastInfo),
+            _cellFor(title: 'PRESSURE', info: pressureInfo)
           ])
         ],
       )
