@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:equatable/equatable.dart';
 
 import 'package:flutterweatherapplication/models/weather_condition_descriptions.dart' as desc;
-import 'package:intl/intl.dart';
 
 enum WeatherCondition {
   clear,
@@ -106,7 +105,7 @@ class Weather extends Equatable {
       pressure: json['pressure'],
       humidity: json['humidity'],
       overcast: json['overcast'],
-      precipitation: json['precipitation'],
+      precipitation: json['precipitation'] % 1 == true ? json['precipitation'] : json['precipitation'].toInt(),
       formattedCondition: json['formatted_condition'],
       condition: _mapStringToWeatherCondition(json['formatted_condition']),
       windSpeed: json['wind_speed'].toDouble(),
