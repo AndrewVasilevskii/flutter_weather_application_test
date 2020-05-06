@@ -1,17 +1,25 @@
-
-
-import 'package:flutterweatherapplication/api_clients/location_api_client.dart';
-import 'package:flutterweatherapplication/api_clients/weather_api_client.dart';
+import 'package:flutterweatherapplication/clients/clients.dart';
 import 'package:flutterweatherapplication/models/forecast.dart';
 
 class WeatherRepository {
   final LocationApiClient locationApiClient;
   final WeatherApiClient weatherApiClient;
 
-  WeatherRepository({this.locationApiClient, this.weatherApiClient});
+  WeatherRepository({
+    this.locationApiClient,
+    this.weatherApiClient
+  });
 
-  Future<Forecast> getWeather() async {
+  Future<Forecast> fetchForecast() async {
     final location = await locationApiClient.getLocation();
-    return weatherApiClient.fetchWeatherByCoordinates(location);
+    return weatherApiClient.fetchWeatherByCityName(location);
+  }
+
+  Future<Forecast> loadForecastFromDatabase() async {
+    return DatabaseClient.db.getForecast();
+  }
+
+  Future saveForecastToDatabase(Forecast forecast) async {
+    DatabaseClient.db.newForecast(forecast);
   }
 }

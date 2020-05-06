@@ -4,12 +4,12 @@ const fewClouds = ['few clouds'];
 const scatterClouds = ['scattered clouds'];
 const brokenClouds = ['broken clouds', 'overcast clouds'];
 
-const mist = ['mist', 'Smoke', 'Haze', 'sand/ dust whirls', 'fog', 'sand',
+const mist = ['mist', 'smoke', 'haze', 'sand/ dust whirls', 'fog', 'sand',
               'dust', 'volcanic ash', 'squalls', 'tornado'];
 
-const snow = ['light snow', 'Snow', 'Heavy snow', 'Sleet', 'Light shower sleet',
-              'Shower sleet', 'Light rain and snow', 'Rain and snow',
-              'Light shower snow', 'Shower snow', 'Heavy shower snow'];
+const snow = ['light snow', 'snow', 'heavy snow', 'sleet', 'light shower sleet',
+              'shower sleet', 'light rain and snow', 'rain and snow',
+              'light shower snow', 'shower snow', 'heavy shower snow'];
 
 const rain = ['light rain', 'moderate rain', 'heavy intensity rain',
               'very heavy rain', 'extreme rain'];
