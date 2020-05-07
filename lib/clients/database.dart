@@ -48,7 +48,6 @@ class DatabaseClient {
     await db.rawDelete("DELETE FROM Forecast");
     await db.rawDelete("DELETE FROM Weather");
     await db.insert("Forecast", forecast.toDatabase());
-    await db.insert("Weather", forecast.forecast[0].toDatabase());
     forecast.forecast.forEach((item) async {
       await db.insert("Weather", item.toDatabase());
     });
