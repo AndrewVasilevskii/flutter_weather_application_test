@@ -105,7 +105,7 @@ class Weather extends Equatable {
       pressure: json['pressure'],
       humidity: json['humidity'],
       overcast: json['overcast'],
-      precipitation: json['precipitation'] % 1 == true ? json['precipitation'] : json['precipitation'].toInt(),
+      precipitation: json['precipitation'] % 1 == 0 ? json['precipitation'].toInt() : json['precipitation'],
       formattedCondition: json['formatted_condition'],
       condition: _mapStringToWeatherCondition(json['formatted_condition']),
       windSpeed: json['wind_speed'].toDouble(),
